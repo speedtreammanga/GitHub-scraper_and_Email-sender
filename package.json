@@ -1,0 +1,19 @@
+{
+  "name": "githubscraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/puppeteer.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cli-progress": "^1.7.0",
+    "fs": "0.0.1-security",
+    "gmail-send": "^1.2.13",
+    "json2csv": "^3.11.5",
+    "puppeteer": "^1.0.0"
+  }
+}

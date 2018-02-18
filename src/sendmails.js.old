@@ -1,0 +1,71 @@
+const puppeteer = require('puppeteer');
+
+const {GMAIL} = require('../config/creds');
+
+async function sendMails() {
+    try {
+        console.log('Launching Headless Gmail mass sending...');
+        const browser = await puppeteer.launch({headless: false});
+        const page = (await browser.pages())[0];
+
+        console.log('Logging in...')
+        await page.goto(GMAIL.login.url);
+
+        await page.click(GMAIL.login.email_sel);
+        await page.keyboard.type('fournier.afa@gmail.com');
+        await page.click(GMAIL.login.email_next_sel);
+        await page.waitFor(1500);
+
+        await page.click(GMAIL.login.password_sel);
+        await page.keyboard.type('afa123AFA');
+        await page.click(GMAIL.login.password_next_sel);
+        await page.waitFor(5000);
+        console.log('Success! 👋');
+
+        console.log('Redirecting to drafts page...');
+        await page.click(GMAIL.drafts.sel);
+        // await page.goto(GMAIL.drafts.url);
+        await page.waitFor(1250);
+        // await page.waitForSelector(GMAIL.drafts.tbody);
+
+        for (let draft_index = 1; draft_index < 381; draft_index++) {
+            console.log(`editing draft #${draft_index}/381...`);
+            await page.click(GMAIL.drafts.single_draft.replace('INDEX', 1));
+            await page.waitFor(800);
+    
+            // await page.click(GMAIL.mail.subject_sel);
+            // await page.keyboard.type('Hi, it\'s me Alex 👋');
+            // page.keyboard.sendCharacter('👋');
+            for (let i = 0; i < 50; i++) {
+                await page.keyboard.down('ArrowRight');
+            }
+            await page.keyboard.type(`
+Let me present myself, I'm Alex, a software developer and book reader.
+
+I wouldn't want to waste your time, so let me get straight to the point.
+I am currently looking for a job as a Front-end developer in the area of Montreal.
+
+That's why I need your help, if you know someone or a team that could benefit from my services, I'd be more than happy to share my skill set with them :)
+
+Here's my Linkedin: https://www.linkedin.com/in/alexandre-fournier-ahizoune/
+you can reach me here: fournier.afa@gmail.com
+
+Thank you so much.
+Alex,
+your friendly software developer`);
+            console.log('sending...');
+            await page.click(GMAIL.mail.send_sel);
+            console.log('sent!');
+            await page.waitFor(1000);
+            console.log('reload drafts...');
+            await page.click(GMAIL.drafts.sel);
+            await page.waitFor(1000);
+            console.log('ok');
+        }
+
+    } catch (err) {
+        console.log('Something went wrong,', err);
+    }
+}
+
+sendMails();
