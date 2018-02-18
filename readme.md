@@ -15,6 +15,7 @@ people = [
 ```
 
 # Getting started
+- Run `npm install` or `yarn install`
 - Edit your login info for both GitHub and Gmail in the `config/creds.js` file.
 - Update the `url_search` param of `GITHUB` in the `config/puppeteer.js` file to match your desired search query.
 
